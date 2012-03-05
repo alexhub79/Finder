@@ -317,7 +317,24 @@ class Finder implements \IteratorAggregate
 
         return $this;
     }
+	
+    /**
+     * Sorts files and directories by name unsensible casse.
+     *
+     * This can be slow as all the matching files and directories must be retrieved for comparison.
+     *
+     * @return Finder The current Finder instance
+     *
+     * @see Symfony\Component\Finder\Iterator\SortableIterator
+     *
+     * @api
+     */
+    public function sortByNameUcase()
+    {
+        $this->sort = Iterator\SortableIterator::SORT_BY_NAME_WITH_UCASE;
 
+        return $this;
+    }
     /**
      * Sorts files and directories by type (directories before files), then by name.
      *
@@ -335,7 +352,24 @@ class Finder implements \IteratorAggregate
 
         return $this;
     }
+	
+    /**
+     * Sorts files and directories by type (directories before files) unsensible case, then by name.
+     *
+     * This can be slow as all the matching files and directories must be retrieved for comparison.
+     *
+     * @return Finder The current Finder instance
+     *
+     * @see Symfony\Component\Finder\Iterator\SortableIterator
+     *
+     * @api
+     */
+    public function sortByTypeUcase()
+    {
+        $this->sort = Iterator\SortableIterator::SORT_BY_TYPE_WITH_UCASE;
 
+        return $this;
+    }
     /**
      * Filters the iterator with an anonymous function.
      *
@@ -502,8 +536,7 @@ class Finder implements \IteratorAggregate
         }
 
         if ($this->sort) {
-            $iteratorAggregate = new Iterator\SortableIterator($iterator, $this->sort);
-            $iterator = $iteratorAggregate->getIterator();
+            $iterator = new Iterator\SortableIterator($iterator, $this->sort);
         }
 
         return $iterator;
